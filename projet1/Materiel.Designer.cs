@@ -40,11 +40,30 @@
             btnexit = new Button();
             btnC = new Button();
             btnDEm = new Button();
+            tabControl1 = new TabControl();
+            tabPage1 = new TabPage();
+            treeView1 = new TreeView();
+            tabPage2 = new TabPage();
+            groupBox1 = new GroupBox();
+            btnAffecter = new Button();
+            cmbMateriel = new ComboBox();
+            cmbEnseignants = new ComboBox();
+            groupBox2 = new GroupBox();
+            cmbMaterielL = new ComboBox();
+            button1 = new Button();
+            dataGridView1 = new DataGridView();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panel2.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -224,22 +243,159 @@
             btnDEm.UseVisualStyleBackColor = false;
             btnDEm.Click += btnDEm_Click;
             // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Location = new Point(337, 96);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(853, 557);
+            tabControl1.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(treeView1);
+            tabPage1.Location = new Point(4, 29);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(845, 524);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Lister Les Materiels";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // treeView1
+            // 
+            treeView1.Location = new Point(53, 27);
+            treeView1.Name = "treeView1";
+            treeView1.Size = new Size(733, 406);
+            treeView1.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(button2);
+            tabPage2.Controls.Add(groupBox1);
+            tabPage2.Controls.Add(groupBox2);
+            tabPage2.Controls.Add(dataGridView1);
+            tabPage2.Location = new Point(4, 29);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(845, 524);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "tabPage2";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(btnAffecter);
+            groupBox1.Controls.Add(cmbMateriel);
+            groupBox1.Controls.Add(cmbEnseignants);
+            groupBox1.Location = new Point(503, 19);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(293, 199);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Affecter un matériel";
+            // 
+            // btnAffecter
+            // 
+            btnAffecter.Location = new Point(77, 146);
+            btnAffecter.Name = "btnAffecter";
+            btnAffecter.Size = new Size(151, 47);
+            btnAffecter.TabIndex = 3;
+            btnAffecter.Text = "button1";
+            btnAffecter.UseVisualStyleBackColor = true;
+            btnAffecter.Click += btnAffecter_Click;
+            // 
+            // cmbMateriel
+            // 
+            cmbMateriel.FormattingEnabled = true;
+            cmbMateriel.Location = new Point(77, 39);
+            cmbMateriel.Name = "cmbMateriel";
+            cmbMateriel.Size = new Size(151, 28);
+            cmbMateriel.TabIndex = 1;
+            // 
+            // cmbEnseignants
+            // 
+            cmbEnseignants.FormattingEnabled = true;
+            cmbEnseignants.Location = new Point(77, 90);
+            cmbEnseignants.Name = "cmbEnseignants";
+            cmbEnseignants.Size = new Size(151, 28);
+            cmbEnseignants.TabIndex = 2;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(cmbMaterielL);
+            groupBox2.Controls.Add(button1);
+            groupBox2.Location = new Point(503, 277);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(293, 204);
+            groupBox2.TabIndex = 0;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Liberer un materiél";
+            // 
+            // cmbMaterielL
+            // 
+            cmbMaterielL.FormattingEnabled = true;
+            cmbMaterielL.Location = new Point(77, 42);
+            cmbMaterielL.Name = "cmbMaterielL";
+            cmbMaterielL.Size = new Size(151, 28);
+            cmbMaterielL.TabIndex = 4;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(77, 155);
+            button1.Name = "button1";
+            button1.Size = new Size(151, 43);
+            button1.TabIndex = 6;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(6, 6);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(471, 512);
+            dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(687, 242);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 4;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Materiel
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1215, 695);
+            Controls.Add(tabControl1);
             Controls.Add(panel1);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Materiel";
             Text = "Materiel";
+            Load += Materiel_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panel2.ResumeLayout(false);
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -257,5 +413,18 @@
         private Button btnDEm;
         private Button btnexit;
         private Button btnR;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private TreeView treeView1;
+        private DataGridView dataGridView1;
+        private Button btnAffecter;
+        private ComboBox cmbEnseignants;
+        private ComboBox cmbMateriel;
+        private GroupBox groupBox1;
+        private GroupBox groupBox2;
+        private ComboBox cmbMaterielL;
+        private Button button1;
+        private Button button2;
     }
 }

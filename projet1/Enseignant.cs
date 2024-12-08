@@ -7,11 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
+using System.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace projet1
 {
     public partial class Enseignant : Form
     {
+
+        SqlConnection cnx;
+        SqlCommand cmd;
+        SqlDataAdapter adap;
+        SqlCommandBuilder cb;
+        DataSet dset;
+
+        int indice;
         public Enseignant()
         {
             InitializeComponent();
@@ -49,6 +62,21 @@ namespace projet1
         {
             Form1 cl = new Form1(); cl.Show();
             this.Hide();
+        }
+
+        private void Enseignant_Load(object sender, EventArgs e)
+        {
+            cnx = new SqlConnection();
+            cnx.ConnectionString = " Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = monprojet " ;
+            cnx.Open();
+            cmd = new SqlCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = " select* from Enseignant " ;
+            cmd.Connection = cnx;
+            adap = new SqlDataAdapter(cmd);
+            dset = new DataSet();
+            adap.Fill(dset);
+            dataGridView1.DataSource = dset.Tables[0];
         }
     }
 }

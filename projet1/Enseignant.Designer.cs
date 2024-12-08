@@ -42,11 +42,17 @@
             panel2 = new Panel();
             btnRe = new Button();
             btnexit = new Button();
+            tabPage1 = new TabPage();
+            dataGridView1 = new DataGridView();
+            tabControl1 = new TabControl();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
+            tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            tabControl1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -57,6 +63,7 @@
             panel1.Controls.Add(pictureBox2);
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Top;
+            panel1.ForeColor = Color.FromArgb(227, 119, 18);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1197, 67);
@@ -226,23 +233,59 @@
             btnexit.UseVisualStyleBackColor = false;
             btnexit.Click += btnexit_Click_1;
             // 
+            // tabPage1
+            // 
+            tabPage1.BorderStyle = BorderStyle.FixedSingle;
+            tabPage1.Controls.Add(dataGridView1);
+            tabPage1.ForeColor = Color.FromArgb(227, 119, 18);
+            tabPage1.Location = new Point(4, 29);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(809, 453);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Lister Les Enseignants";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(22, 6);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(781, 441);
+            dataGridView1.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Location = new Point(351, 98);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(817, 486);
+            tabControl1.TabIndex = 6;
+            // 
             // Enseignant
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1197, 648);
+            Controls.Add(tabControl1);
             Controls.Add(panel1);
             Controls.Add(panel2);
             ForeColor = Color.Crimson;
             FormBorderStyle = FormBorderStyle.None;
             Name = "Enseignant";
             Text = "Enseignant";
+            Load += Enseignant_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            tabControl1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -260,6 +303,8 @@
         private Panel panel2;
         private Button btnRe;
         private Button btnexit;
-
+        private TabPage tabPage1;
+        private DataGridView dataGridView1;
+        private TabControl tabControl1;
     }
 }
