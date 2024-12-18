@@ -147,46 +147,8 @@ namespace projet1
                 readerMateriel.Close();
             }
 
-            // Charger les enseignants dans le ComboBox
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                string queryEnseignant = "SELECT Id, Nom FROM Enseignant";
-                SqlCommand cmdEnseignant = new SqlCommand(queryEnseignant, connection);
-                SqlDataReader readerEnseignant = cmdEnseignant.ExecuteReader();
-
-                while (readerEnseignant.Read())
-                {
-                    int enseignantId = (int)readerEnseignant["Id"];
-                    string enseignantNom = readerEnseignant["Nom"].ToString();
-                    cmbEnseignants.Items.Add(new { Id = enseignantId, Nom = enseignantNom });
-                }
-                readerEnseignant.Close();
-            }
-            // Rafraîchir les matériels (afficher uniquement ceux non affectés à un enseignant)
 
 
-
-            cmbMaterielL.Items.Clear(); // Vider les éléments existants du ComboBox
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                // Charger les matériels affectés (EnseignantId IS NOT NULL)
-                string query = "SELECT Reference, Type FROM Materiel WHERE EnseignantId IS NOT NULL";
-                SqlCommand cmd = new SqlCommand(query, connection);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    string reference = reader["Reference"].ToString();
-                    string type = reader["Type"].ToString();
-                    cmbMaterielL.Items.Add(new { Reference = reference, Type = type });
-                }
-
-                reader.Close();
-            }
         }
         private void RafraichirMateriels()
         {// Rechargez les matériels affectés et libérés, selon vos besoins
