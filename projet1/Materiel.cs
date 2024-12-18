@@ -101,197 +101,126 @@ namespace projet1
 
                 readerTypes.Close();
             }
-            using (SqlConnection connection3 = new SqlConnection(connectionString))
-            {
-                connection3.Open();
 
-                string query = @"
-                    SELECT 
-                        M.Reference, 
-                        M.Type, 
-                        CASE 
-                            WHEN M.EnseignantId IS NULL THEN 'Libre' 
-                            ELSE E.Nom 
-                        END AS Affectation
-                    FROM Materiel M
-                    LEFT JOIN Enseignant E ON M.EnseignantId = E.Id";
-
-
-                // Initialiser correctement l'adap
-                SqlDataAdapter adap = new SqlDataAdapter(query, connection3);
-
-                // Créer un DataTable pour stocker les résultats
-                DataTable dataTable = new DataTable();
-
-                // Remplir le DataTable avec les résultats de la requête
-                adap.Fill(dataTable);
-
-                // Associer le DataTable au DataGridView pour afficher les résultats
-                dataGridView1.DataSource = dataTable;  // Afficher les données dans le DataGridView
-            }
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Open();
+                // Charger les matériels non affectés dans ComboBox1
+                SqlCommand cmdMateriels = new SqlCommand("SELECT * FROM Materiel WHERE id NOT IN (SELECT id_materiel FROM Materiel_Affecter)", connection);
+                SqlDataAdapter adapMateriels = new SqlDataAdapter(cmdMateriels);
+                DataTable dtMateriels = new DataTable();
+                adapMateriels.Fill(dtMateriels);
+                comboBoxMateriels.DisplayMember = "Reference"; // Le nom du matériel
+                comboBoxMateriels.ValueMember = "id";  // L'id du matériel
+                comboBoxMateriels.DataSource = dtMateriels;
+                LoadMaterielsNonAffectes();
 
-                string queryMateriel = "SELECT Reference, Type FROM Materiel WHERE EnseignantId IS NULL";  // Matériels libres
-                SqlCommand cmdMateriel = new SqlCommand(queryMateriel, connection);
-                SqlDataReader readerMateriel = cmdMateriel.ExecuteReader();
+                // Charger les enseignants dans ComboBox2
+                SqlCommand cmdEnseignants = new SqlCommand("SELECT * FROM Enseignant", connection);
+                SqlDataAdapter adapEnseignants = new SqlDataAdapter(cmdEnseignants);
+                DataTable dtEnseignants = new DataTable();
+                adapEnseignants.Fill(dtEnseignants);
+                comboBoxEnseignants.DisplayMember = "nom";  // Le nom de l'enseignant
+                comboBoxEnseignants.ValueMember = "id";  // L'id de l'enseignant
+                comboBoxEnseignants.DataSource = dtEnseignants;
 
-                while (readerMateriel.Read())
-                {
-                    string reference = readerMateriel["Reference"].ToString();
-                    string type = readerMateriel["Type"].ToString();
-                    cmbMateriel.Items.Add(new { Reference = reference, Type = type });
-                }
-                readerMateriel.Close();
+                // Charger les matériels affectés dans DataGridView
+                SqlCommand cmdAffectations = new SqlCommand("SELECT m.Reference AS Materiel, e.nom AS Enseignant, ma.id FROM Materiel_Affecter ma JOIN Materiel m ON ma.id_materiel = m.id JOIN Enseignant e ON ma.id_enseignant = e.id", connection);
+                SqlDataAdapter adapAffectations = new SqlDataAdapter(cmdAffectations);
+                DataTable dtAffectations = new DataTable();
+                adapAffectations.Fill(dtAffectations);
+                dgvMateriels.DataSource = dtAffectations;
             }
 
 
 
         }
-        private void RafraichirMateriels()
-        {// Rechargez les matériels affectés et libérés, selon vos besoins
-            cmbMateriel.Items.Clear();
-            cmbMaterielL.Items.Clear();
 
+
+        private void dgvMateriels_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void btnAffecter_Click(object sender, EventArgs e)
+        {
+            int idMateriel = Convert.ToInt32(comboBoxMateriels.SelectedValue);
+            int idEnseignant = Convert.ToInt32(comboBoxEnseignants.SelectedValue);
             string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=monprojet;Integrated Security=True";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                SqlCommand cmdAffecter = new SqlCommand("INSERT INTO Materiel_Affecter (id_materiel, id_enseignant) VALUES (@idMateriel, @idEnseignant)", connection);
+                cmdAffecter.Parameters.AddWithValue("@idMateriel", idMateriel);
+                cmdAffecter.Parameters.AddWithValue("@idEnseignant", idEnseignant);
                 connection.Open();
-
-                // Charger les matériels affectés dans cmbMaterielL (affichage des matériels affectés)
-                string query = "SELECT Reference, Type FROM Materiel WHERE EnseignantId IS NOT NULL";
-                SqlCommand cmd = new SqlCommand(query, connection);
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    string reference = reader["Reference"].ToString();
-                    string type = reader["Type"].ToString();
-                    cmbMaterielL.Items.Add(reference + " - " + type);
-                }
-                reader.Close();
-
-                // Charger les matériels disponibles dans cmbMateriel (affichage des matériels disponibles)
-                string queryLibre = "SELECT Reference, Type FROM Materiel WHERE EnseignantId IS NULL";
-                SqlCommand cmdLibre = new SqlCommand(queryLibre, connection);
-                SqlDataReader readerLibre = cmdLibre.ExecuteReader();
-                while (readerLibre.Read())
-                {
-                    string reference = readerLibre["Reference"].ToString();
-                    string type = readerLibre["Type"].ToString();
-                    cmbMateriel.Items.Add(reference + " - " + type);
-                }
-                readerLibre.Close();
+                cmdAffecter.ExecuteNonQuery();
             }
+
+            // Recharger les matériels affectés dans DataGridView
+            LoadAffectations();
+            LoadMaterielsNonAffectes();
+
         }
 
-
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void btnLiberer_Click(object sender, EventArgs e)
         {
+            // Assure-toi que la cellule sélectionnée correspond à une affectation
+            int idAffectation = Convert.ToInt32(dgvMateriels.SelectedRows[0].Cells["id"].Value);
+
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=monprojet;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmdLiberer = new SqlCommand("DELETE FROM Materiel_Affecter WHERE id = @idAffectation", connection);
+                cmdLiberer.Parameters.AddWithValue("@idAffectation", idAffectation);
+                connection.Open();
+                cmdLiberer.ExecuteNonQuery();
+            }
+
+            // Recharger les matériels affectés dans DataGridView
+            LoadAffectations();
+            LoadMaterielsNonAffectes();
 
         }
-
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        private void LoadAffectations()
         {
-
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=monprojet;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmdAffectations = new SqlCommand("SELECT m.Reference AS Materiel, e.nom AS Enseignant, ma.id FROM Materiel_Affecter ma JOIN Materiel m ON ma.id_materiel = m.id JOIN Enseignant e ON ma.id_enseignant = e.id", connection);
+                SqlDataAdapter adapAffectations = new SqlDataAdapter(cmdAffectations);
+                DataTable dtAffectations = new DataTable();
+                adapAffectations.Fill(dtAffectations);
+                dgvMateriels.DataSource = dtAffectations;
+            }
         }
 
-        private string selectedReference = string.Empty;  // Variable pour stocker la référence sélectionnée
-        private int? selectedEnseignantId = null;  // Variable pour stocker l'ID de l'enseignant
-        private void btnAffecter_Click(object sender, EventArgs e)
+        private void LoadMaterielsNonAffectes()
         {
-            if (cmbMateriel.SelectedItem != null && cmbEnseignants.SelectedItem != null)
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=monprojet;Integrated Security=True";
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // Récupérer la référence sélectionnée
-                string selectedItem = cmbMateriel.SelectedItem.ToString();
-                selectedReference = selectedItem.Split(' ')[0]; // Extraire la référence
+                // Sélectionner uniquement les matériels non affectés
+                string queryMaterielsNonAffectes = @"
+            SELECT * 
+            FROM Materiel 
+            WHERE id NOT IN (SELECT id_materiel FROM Materiel_Affecter)";
+                SqlCommand cmdMaterielsNonAffectes = new SqlCommand(queryMaterielsNonAffectes, connection);
+                SqlDataAdapter adapMaterielsNonAffectes = new SqlDataAdapter(cmdMaterielsNonAffectes);
+                DataTable dtMaterielsNonAffectes = new DataTable();
+                adapMaterielsNonAffectes.Fill(dtMaterielsNonAffectes);
 
-                // Récupérer l'ID de l'enseignant sélectionné
-                string enseignantName = cmbEnseignants.SelectedItem.ToString();
-                string enseignantId = enseignantName.Split(' ')[0];  // Extraire l'ID de l'enseignant
-                selectedEnseignantId = int.Parse(enseignantId);
-
-                // Afficher un message pour confirmer que l'affectation a bien été sélectionnée
-                MessageBox.Show("Le matériel a été sélectionné pour affectation.");
-            }
-            else
-            {
-                MessageBox.Show("Veuillez sélectionner un matériel et un enseignant.");
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (cmbMaterielL.SelectedItem != null)
-            {
-                // Récupérer la référence sélectionnée pour la libération
-                string selectedItem = cmbMaterielL.SelectedItem.ToString();
-                selectedReference = selectedItem.Split(' ')[0]; // Extraire la référence
-                selectedEnseignantId = null;  // Aucun enseignant associé lors de la libération
-
-                // Afficher un message pour confirmer que la libération a bien été sélectionnée
-                MessageBox.Show("Le matériel a été sélectionné pour libération.");
-            }
-            else
-            {
-                MessageBox.Show("Veuillez sélectionner un matériel à libérer.");
+                // Associer les données au ComboBox
+                comboBoxMateriels.DisplayMember = "Reference"; // Afficher la référence du matériel
+                comboBoxMateriels.ValueMember = "id"; // Utiliser l'ID du matériel comme valeur
+                comboBoxMateriels.DataSource = dtMaterielsNonAffectes;
             }
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(selectedReference))
-            {
-                try
-                {
-                    string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=monprojet;Integrated Security=True";
-
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-
-                        // Mise à jour de l'EnseignantId ou suppression (libération)
-                        string query = selectedEnseignantId.HasValue
-                            ? "UPDATE Materiel SET EnseignantId = @EnseignantId WHERE Reference = @Reference"
-                            : "UPDATE Materiel SET EnseignantId = NULL WHERE Reference = @Reference";
-
-                        SqlCommand cmd = new SqlCommand(query, connection);
-                        cmd.Parameters.AddWithValue("@Reference", selectedReference);
-                        if (selectedEnseignantId.HasValue)
-                        {
-                            cmd.Parameters.AddWithValue("@EnseignantId", selectedEnseignantId.Value);
-                        }
-
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            MessageBox.Show("Mise à jour réussie !");
-                            // Vous pouvez également recharger les données pour afficher les changements
-                            RafraichirMateriels();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Aucun matériel trouvé avec cette référence.");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erreur lors de la mise à jour du matériel : " + ex.Message);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Aucun matériel sélectionné pour la mise à jour.");
-            }
-        }
     }
 }
+

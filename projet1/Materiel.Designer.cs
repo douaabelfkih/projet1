@@ -44,15 +44,13 @@
             tabPage1 = new TabPage();
             treeView1 = new TreeView();
             tabPage2 = new TabPage();
-            groupBox1 = new GroupBox();
+            btnLiberer = new Button();
             btnAffecter = new Button();
-            cmbMateriel = new ComboBox();
-            cmbEnseignants = new ComboBox();
+            comboBoxEnseignants = new ComboBox();
+            comboBoxMateriels = new ComboBox();
+            dgvMateriels = new DataGridView();
+            groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
-            cmbMaterielL = new ComboBox();
-            button1 = new Button();
-            dataGridView1 = new DataGridView();
-            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -61,9 +59,9 @@
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvMateriels).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -273,104 +271,100 @@
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(button2);
-            tabPage2.Controls.Add(groupBox1);
             tabPage2.Controls.Add(groupBox2);
-            tabPage2.Controls.Add(dataGridView1);
+            tabPage2.Controls.Add(groupBox1);
+            tabPage2.Controls.Add(dgvMateriels);
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(845, 524);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            tabPage2.Text = "Etat de Materiel";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // btnLiberer
             // 
-            groupBox1.Controls.Add(btnAffecter);
-            groupBox1.Controls.Add(cmbMateriel);
-            groupBox1.Controls.Add(cmbEnseignants);
-            groupBox1.Location = new Point(503, 19);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(293, 199);
-            groupBox1.TabIndex = 4;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Affecter un matériel";
+            btnLiberer.BackColor = SystemColors.ControlLightLight;
+            btnLiberer.Cursor = Cursors.Hand;
+            btnLiberer.FlatAppearance.BorderSize = 0;
+            btnLiberer.FlatStyle = FlatStyle.Flat;
+            btnLiberer.Font = new Font("Century Schoolbook", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnLiberer.ForeColor = SystemColors.GrayText;
+            btnLiberer.Location = new Point(42, 68);
+            btnLiberer.Name = "btnLiberer";
+            btnLiberer.Size = new Size(218, 53);
+            btnLiberer.TabIndex = 3;
+            btnLiberer.Text = "Libérer";
+            btnLiberer.UseVisualStyleBackColor = false;
+            btnLiberer.Click += btnLiberer_Click;
             // 
             // btnAffecter
             // 
-            btnAffecter.Location = new Point(77, 146);
+            btnAffecter.BackColor = SystemColors.ControlLightLight;
+            btnAffecter.FlatAppearance.BorderSize = 0;
+            btnAffecter.FlatStyle = FlatStyle.Flat;
+            btnAffecter.Font = new Font("Century Schoolbook", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAffecter.ForeColor = SystemColors.GrayText;
+            btnAffecter.Location = new Point(62, 144);
             btnAffecter.Name = "btnAffecter";
-            btnAffecter.Size = new Size(151, 47);
-            btnAffecter.TabIndex = 3;
-            btnAffecter.Text = "button1";
-            btnAffecter.UseVisualStyleBackColor = true;
+            btnAffecter.Size = new Size(183, 50);
+            btnAffecter.TabIndex = 9;
+            btnAffecter.Text = "Affecter";
+            btnAffecter.UseVisualStyleBackColor = false;
             btnAffecter.Click += btnAffecter_Click;
             // 
-            // cmbMateriel
+            // comboBoxEnseignants
             // 
-            cmbMateriel.FormattingEnabled = true;
-            cmbMateriel.Location = new Point(77, 39);
-            cmbMateriel.Name = "cmbMateriel";
-            cmbMateriel.Size = new Size(151, 28);
-            cmbMateriel.TabIndex = 1;
+            comboBoxEnseignants.FormattingEnabled = true;
+            comboBoxEnseignants.Location = new Point(62, 94);
+            comboBoxEnseignants.Name = "comboBoxEnseignants";
+            comboBoxEnseignants.Size = new Size(183, 36);
+            comboBoxEnseignants.TabIndex = 8;
             // 
-            // cmbEnseignants
+            // comboBoxMateriels
             // 
-            cmbEnseignants.FormattingEnabled = true;
-            cmbEnseignants.Location = new Point(77, 90);
-            cmbEnseignants.Name = "cmbEnseignants";
-            cmbEnseignants.Size = new Size(151, 28);
-            cmbEnseignants.TabIndex = 2;
+            comboBoxMateriels.FormattingEnabled = true;
+            comboBoxMateriels.Location = new Point(62, 43);
+            comboBoxMateriels.Name = "comboBoxMateriels";
+            comboBoxMateriels.Size = new Size(183, 36);
+            comboBoxMateriels.TabIndex = 7;
+            comboBoxMateriels.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // dgvMateriels
+            // 
+            dgvMateriels.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvMateriels.Location = new Point(22, 3);
+            dgvMateriels.Name = "dgvMateriels";
+            dgvMateriels.RowHeadersWidth = 51;
+            dgvMateriels.Size = new Size(485, 392);
+            dgvMateriels.TabIndex = 6;
+            dgvMateriels.CellContentClick += dgvMateriels_CellContentClick;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(comboBoxMateriels);
+            groupBox1.Controls.Add(comboBoxEnseignants);
+            groupBox1.Controls.Add(btnAffecter);
+            groupBox1.Font = new Font("Century Schoolbook", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            groupBox1.ForeColor = Color.FromArgb(227, 119, 18);
+            groupBox1.Location = new Point(521, 31);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(303, 207);
+            groupBox1.TabIndex = 11;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Affecter à";
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(cmbMaterielL);
-            groupBox2.Controls.Add(button1);
-            groupBox2.Location = new Point(503, 277);
+            groupBox2.Controls.Add(btnLiberer);
+            groupBox2.Font = new Font("Century Schoolbook", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            groupBox2.ForeColor = Color.FromArgb(227, 119, 18);
+            groupBox2.Location = new Point(521, 274);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(293, 204);
+            groupBox2.Size = new Size(303, 152);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Liberer un materiél";
-            // 
-            // cmbMaterielL
-            // 
-            cmbMaterielL.FormattingEnabled = true;
-            cmbMaterielL.Location = new Point(77, 42);
-            cmbMaterielL.Name = "cmbMaterielL";
-            cmbMaterielL.Size = new Size(151, 28);
-            cmbMaterielL.TabIndex = 4;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(77, 155);
-            button1.Name = "button1";
-            button1.Size = new Size(151, 43);
-            button1.TabIndex = 6;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(6, 6);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(471, 512);
-            dataGridView1.TabIndex = 0;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(687, 242);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 29);
-            button2.TabIndex = 4;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            groupBox2.Text = "Libérer";
             // 
             // Materiel
             // 
@@ -393,9 +387,9 @@
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvMateriels).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -417,14 +411,12 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private TreeView treeView1;
-        private DataGridView dataGridView1;
+        private DataGridView dgvMateriels;
+        private ComboBox comboBoxMateriels;
+        private Button btnLiberer;
         private Button btnAffecter;
-        private ComboBox cmbEnseignants;
-        private ComboBox cmbMateriel;
+        private ComboBox comboBoxEnseignants;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
-        private ComboBox cmbMaterielL;
-        private Button button1;
-        private Button button2;
     }
 }
